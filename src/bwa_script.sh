@@ -1,0 +1,2 @@
+bwa index emergent-metagenome-pipeline/data/Staphylococcus_aureus_ATCC_12600.fasta
+bwa mem emergent-metagenome-pipeline/data/Staphylococcus_aureus_ATCC_12600.fasta emergent-metagenome-pipeline/work/downsampled_ERR2984773_filtered_R1.fastq emergent-metagenome-pipeline/work/downsampled_ERR2984773_filtered_R2.fastq > emergent-metagenome-pipeline/work/downsampled_bam.bam
