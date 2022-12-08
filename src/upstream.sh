@@ -144,22 +144,21 @@ fi
 validate_fasta () {
 	if [[ -f $1 ]] #Check if input is a file
 	 then
-			if [[ $(grep -q "^@" $1 ; echo $?) -eq 1 && $(seqkit seq -t dna -n --quiet $1 | wc -l) -ge 1 ]] # if file is NOT fastq and checks if seqkit can parse the file 
-			 then	
-				if [[ $(grep -v ">" $1 | grep -q -i "[^ATCGNWSMKRY]"; echo $?) -eq 1 ]] #check if seqence has characters other than ATGCN
-				 then
-					1>&2 echo -e "$1 is a valid fasta file"
-				else
-					1>&2 echo -e "Seqence has non-standard nucleic acid characters\n$USAGE" 
-				echo -e 
-					exit 1 
-				fi
+		if [[ $(grep -q "^@" $1 ; echo $?) -eq 1 && $(seqkit seq -t dna -n --quiet $1 | wc -l) -ge 1 ]] # if file is NOT fastq and checks if seqkit can parse the file 
+		 then	
+			if [[ $(grep -v ">" $1 | grep -q -i "[^ATCGNWSMKRY]"; echo $?) -eq 1 ]] #check if seqence has characters other than ATGCN
+			 then
+				1>&2 echo -e "$1 is a valid fasta file"
 			else
-				1>&2 echo -e "Input file not in FASTA format\n$USAGE"
-				echo -e 
-				exit 1
+				1>&2 echo -e "Seqence has non-standard nucleic acid characters\n$USAGE" 
+			echo -e 
+				exit 1 
 			fi
-	fi	
+		else
+			1>&2 echo -e "Input file not in FASTA format\n$USAGE"
+			echo -e 
+			exit 1
+		fi	
 	else
 		1>&2 echo -e "Invalid input\n$USAGE"
 		echo -e 
@@ -190,14 +189,9 @@ validate_fastq () {
 ## Fastp quality filtering
 fastp --in1 $fastq_1_path --in2 $fastq_1_path \
 --detect_adapter_for_pe \
---adapter_fasta ./data/NexteraPE-PE.fa \
 --cut_front \
 --out1 $outdir\\$bname_R1\_filtered.fastq \
 --out2 $outdir\\$bname_R2\_filtered.fastq
-
-if filesize  0; contiue
-else exit 1
-
 
 ##alignment
 
@@ -208,9 +202,8 @@ if [[ $alt_align > 0 ]]
 else	
 	echo "Using bwa for alignment"
     bwa index $reference_path
-    bwa mem $reference_path $outdir\\$bname_R1\_filtered.fastq $outdir\\$bname_R2\_filtered.fastq > $outdir\\$outdir-bwa.bam
+    bwa mem $reference_path $outdir\\$bname_R1\_filtered.fastq $outdir\\$bname_R2\_filtered.fastq > $outdir\output_bwa.bam
 fi	
-
 
 
 
