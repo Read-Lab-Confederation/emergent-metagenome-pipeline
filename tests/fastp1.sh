@@ -9,7 +9,7 @@ echo 'Files exist'
 
 fastp_out1=$(wc -c ./work/downsampled_ERR2984773_filtered_R1.fastq | awk '{print $1}')
 
-fastp_out2=$(wc -c ./work/testFastp.fasta | awk '{print $1}')
+fastp_out2=$(wc -c ./work/downsampled_ERR2984773_filtered_R2.fastq | awk '{print $1}')
 
 checkNumb=50
 
